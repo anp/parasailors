@@ -1,0 +1,12 @@
+[package]
+name = "parasail_sys"
+version = "0.1.0"
+authors = ["Adam Perry <adam.n.perry@gmail.com>"]
+links = "parasail"
+build = "build.rs"
+
+[dependencies]
+libc = "0.2"
+
+[build-dependencies]
+cmake = "0.1"
