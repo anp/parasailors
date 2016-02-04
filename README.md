@@ -39,7 +39,7 @@ The sub-crate with the FFI bindings (`parasail_sys`) relies on `cmake >= 2.8.8` 
 
 Contributions are more than welcome, especially if you're more familiar than I am with C (which is likely) or bioinformatics (which is also likely). I encourage any bug reports or requests on GitHub Issues, and I'm happy to review any pull requests.
 
-If you have questions that aren't related to a bug or requested feature, please [email me](adam.n.perry@gmail.com) or find me in the Rust IRC channels (usually `#rust` and `#rust-beginners`, nick is the same as GitHub username).
+If you have questions that aren't related to a bug or requested feature, please [email me](mailto:adam.n.perry@gmail.com) or find me in the Rust IRC channels (usually `#rust` and `#rust-beginners`, nick is the same as GitHub username).
 
 ## License(s)
 

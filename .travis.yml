@@ -2,8 +2,11 @@ language: rust
 sudo: false
 addons:
   apt:
+    sources:
+      - george-edison55-precise-backports
     packages:
-    - cmake
+      - cmake
+      - cmake-data
 rust:
 - stable
 - nightly
