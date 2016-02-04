@@ -102,12 +102,6 @@
 //! assert_eq!(48, local_alignment_score(&profile, reference, 1, 1));
 //! assert_eq!(48, semi_global_alignment_score(&profile, reference, 1, 1));
 //! assert_eq!(48, global_alignment_score(&profile, reference, 1, 1));
-//!
-//! // a shorter reference -- shouldn't really align well
-//! let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTT";
-//! assert_eq!(35, local_alignment_score(&profile, reference, 1, 1));
-//! assert_eq!(35, semi_global_alignment_score(&profile, reference, 1, 1));
-//! assert_eq!(2, global_alignment_score(&profile, reference, 1, 1));
 //! ```
 
 extern crate libc;
