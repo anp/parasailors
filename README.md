@@ -1,5 +1,7 @@
 # parasailors
 
+[![Build Status](https://travis-ci.org/dikaiosune/parasailors.svg?branch=master)](https://travis-ci.org/dikaiosune/parasailors)
+
 [parasailors](https://github.com/dikaiosune/parasailors) is a set of Rust bindings to the [parasail](https://github.com/jeffdaily/parasail) vectorized pairwise sequence alignment library. `parasail` provides vectorized/SIMD versions of the [Smith-Waterman](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm), [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm), [semi-global alignment](https://en.wikipedia.org/wiki/Sequence_alignment#Global_and_local_alignments) algorithms for pairwise DNA/protein sequence alignment.
 
 In the interest of ease of use, this crate provides a much simpler interface than the original library. The original C library provides dozens (hundreds?) of functions to use for alignment. Even though they only implement 3 algorithms, they vary based on which SIMD ISA is used, the integer width for the underlying calculations, whether statistics of the alignment are calculated, whether rows or columns from the dynamic programming matrix are returned, etc. However, the library also provides automatic SIMD feature detection (to dynamically dispatch functions based on CPU architecture), and an overflow-detecting method for picking the correct integer width for calculations. These dispatching functions are what are currently called in `parasailors`.

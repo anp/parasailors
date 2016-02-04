@@ -41,26 +41,6 @@ impl Matrix {
     /// let identity_matrix = Matrix::new(MatrixType::Identity);
     /// let blosum62 = Matrix::new(MatrixType::Blosum62);
     /// let pam120 = Matrix::new(MatrixType::Pam120);
-    ///
-    /// let query = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
-    /// let profile_ident = Profile::new(query, &identity_matrix);
-    /// let profile_blosum62 = Profile::new(query, &blosum62);
-    /// let profile_pam120 = Profile::new(query, &pam120);
-    ///
-    /// let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
-    /// assert_eq!(299, local_alignment_score(&profile_blosum62, reference, 1, 1));
-    /// assert_eq!(50, semi_global_alignment_score(&profile_ident, reference, 1, 1));
-    /// assert_eq!(250, global_alignment_score(&profile_pam120, reference, 1, 1));
-    ///
-    /// let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTCCTTTTTTNNNNNNNNN";
-    /// assert_eq!(297, local_alignment_score(&profile_blosum62, reference, 1, 1));
-    /// assert_eq!(48, semi_global_alignment_score(&profile_ident, reference, 1, 1));
-    /// assert_eq!(248, global_alignment_score(&profile_pam120, reference, 1, 1));
-    ///
-    /// let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTT";
-    /// assert_eq!(215, local_alignment_score(&profile_blosum62, reference, 1, 1));
-    /// assert_eq!(35, semi_global_alignment_score(&profile_ident, reference, 1, 1));
-    /// assert_eq!(167, global_alignment_score(&profile_pam120, reference, 1, 1));
     /// ```
     pub fn new(matrix_type: MatrixType) -> Self {
         unsafe {
