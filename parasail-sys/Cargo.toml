@@ -7,7 +7,6 @@ build = "build.rs"
 license = "MIT"
 documentation = "https://dikaiosune.github.io/parasailors"
 repository = "https://github.com/dikaiosune/parasailors"
-readme = "README.md"
 keywords = ["simd", "bioinformatics", "sequence", "alignment"]
 description = "Native bindings to the parasail pairwise genetic sequence alignment library."
 

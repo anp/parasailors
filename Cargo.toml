@@ -6,13 +6,14 @@ license = "MIT"
 documentation = "https://dikaiosune.github.io/parasailors"
 repository = "https://github.com/dikaiosune/parasailors"
 readme = "README.md"
+exclude = ["parasail-sys/*"]
 keywords = ["simd", "bioinformatics", "sequence", "alignment"]
 description = "SIMD accelerated pairwise genetic sequence alignment."
 
 [dependencies]
 clippy = {version = "0.0.37", optional = true}
 libc = "0.2"
-parasail-sys = { path = "parasail-sys" }
+parasail-sys = "0.1"
 
 [features]
 default = []

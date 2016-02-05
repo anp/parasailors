@@ -1,6 +1,6 @@
 # parasailors
 
-[![Build Status](https://img.shields.io/travis/dikaiosune/parasailors/master.svg?style=flat-square)](https://travis-ci.org/dikaiosune/parasailors) [![API Docs](https://img.shields.io/badge/API-docs-blue.svg?style=flat-square)](https://dikaiosune.github.io/parasailors) [![License](https://img.shields.io/badge/license-MIT-lightgray.svg?style=flat-square)](https://github.com/dikaiosune/parasailors/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/dikaiosune/parasailors/master.svg?style=flat-square)](https://travis-ci.org/dikaiosune/parasailors) [![crates.io](https://img.shields.io/github/release/dikaiosune/parasailors.svg?style=flat-square)](https://crates.io/crates/parasailors/) [![API Docs](https://img.shields.io/badge/API-docs-blue.svg?style=flat-square)](https://dikaiosune.github.io/parasailors) [![License](https://img.shields.io/badge/license-MIT-lightgray.svg?style=flat-square)](https://github.com/dikaiosune/parasailors/blob/master/LICENSE)
 
 [parasailors](https://github.com/dikaiosune/parasailors) is a set of Rust bindings to the [parasail](https://github.com/jeffdaily/parasail) vectorized pairwise sequence alignment library. `parasail` provides vectorized/SIMD versions of the [Smith-Waterman](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm), [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm), [semi-global alignment](https://en.wikipedia.org/wiki/Sequence_alignment#Global_and_local_alignments) algorithms for pairwise DNA/protein sequence alignment.
 
@@ -53,11 +53,9 @@ test bench_semiglobal_reuse_profile ... bench:  12,465,250 ns/iter (+/- 52,930)
 
 ## Usage and Documentation
 
-Not yet published to [crates.io](https://crates.io). For now:
-
 ```toml
 [dependencies]
-parasailors = { git = "https://github.com/dikaiosune/parasailors" }
+parasailors = "0.1"
 ```
 
 A brief usage example with an identity substitution matrix (although PAM and BLOSUM are available as well):
