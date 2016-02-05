@@ -4,7 +4,7 @@
 
 [parasailors](https://github.com/dikaiosune/parasailors) is a set of Rust bindings to the [parasail](https://github.com/jeffdaily/parasail) vectorized pairwise sequence alignment library. `parasail` provides vectorized/SIMD versions of the [Smith-Waterman](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm), [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm), [semi-global alignment](https://en.wikipedia.org/wiki/Sequence_alignment#Global_and_local_alignments) algorithms for pairwise DNA/protein sequence alignment.
 
-In the interest of ease of use, this crate provides a much simpler interface than the original library. The original C library provides dozens (hundreds?) of functions to use for alignment. Even though they only implement 3 algorithms, they vary based on which SIMD ISA is used, the integer width for the underlying calculations, whether statistics of the alignment are calculated, whether rows or columns from the dynamic programming matrix are returned, etc. However, the library also provides automatic SIMD feature detection (to dynamically dispatch functions based on CPU architecture), and an overflow-detecting method for picking the correct integer width for calculations. These dispatching functions are what are currently called in `parasailors`.
+The original C library provides hundreds of functions to use for alignment. Even though they only implement 3 algorithms, they vary based on which SIMD ISA is used, the integer width for the underlying calculations, whether statistics of the alignment are calculated, whether rows or columns from the dynamic programming matrix are returned, etc. However, the library also provides automatic SIMD feature detection (to dynamically dispatch functions based on CPU architecture), and an overflow-detecting method for picking the correct integer width for calculations. In order to simplify use in the absence of more mature SIMD feature detection in Rust, these dispatching functions are what are currently called in `parasailors`.
 
 **WARNING**: The bindings are currently in an immature state, and it's not recommended to use them for any published results or production systems without some independent verification of both the underlying algorithm implementations and this crate. If you find something worrying, please open an issue :).
 
@@ -21,7 +21,30 @@ Not yet published to [crates.io](https://crates.io). For now:
 parasailors = { git = "https://github.com/dikaiosune/parasailors" }
 ```
 
-[See the documentation](https://dikaiosune.github.io/parasailors) for usage examples.
+A brief usage example with an identity substitution matrix (although PAM and BLOSUM are available as well):
+
+```rust
+use parasailors::*;
+
+// everything operates on &[u8] to avoid copying and reparsing
+// this is the format that rust-bio provides when parsing FASTA/FASTQ
+let query_sequence = b"AAAAAAAAAA";
+let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
+
+// the MatrixType enum allows us to type-safely select which matrix to use
+// without the string-based search of the original library
+let identity_matrix = Matrix::new(MatrixType::Identity);
+
+// profiles can be reused across many alignments, saving overhead
+let profile = Profile::new(query_sequence, &identity_matrix);
+
+// parasail provides us with fast implementations for multiple alignment types
+assert_eq!(10, local_alignment_score(&profile, reference, 1, 1));
+assert_eq!(10, semi_global_alignment_score(&profile, reference, 1, 1));
+assert_eq!(-30, global_alignment_score(&profile, reference, 1, 1));
+```
+
+[See the documentation for more usage examples](https://dikaiosune.github.io/parasailors).
 
 ## Requirements
 
