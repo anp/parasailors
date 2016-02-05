@@ -46,6 +46,19 @@ assert_eq!(-30, global_alignment_score(&profile, reference, 1, 1));
 
 [See the documentation for more usage examples](https://dikaiosune.github.io/parasailors).
 
+## Features/TODO
+
+- [x] Profile-reusing alignment scores
+- [x] Type-safe usage of many different substitution matrices
+- [ ] Quick one-off alignment functions that automatically create profiles
+- [ ] Gap statistics calculations
+- [ ] CIGAR strings
+- [ ] Returning rows and columns of dynamic-programming matrices for further calculations
+- [ ] Manually selecting which SIMD features to use
+- [ ] Manually selecting algorithm implementations (striped, scan, diagonal, blocked)
+- [ ] Manually selecting integer bit-width
+- [ ] Compile-time creation of non-included substitution matrices
+
 ## Requirements
 
 The sub-crate with the FFI bindings (`parasail_sys`) relies on `cmake >= 2.8.8` to build the bundled version of parasail. It's recommended to build on a system with a comparable SIMD instruction set to the target machine (ideally the target machine itself). The `parasail` C library generally does a good job of feature detection, but your compiler may balk at producing vector instructions for an architecture on which it's not running, potentially robbing some performance.
