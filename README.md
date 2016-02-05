@@ -6,11 +6,50 @@
 
 The original C library provides hundreds of functions to use for alignment. Even though they only implement 3 algorithms, they vary based on which SIMD ISA is used, the integer width for the underlying calculations, whether statistics of the alignment are calculated, whether rows or columns from the dynamic programming matrix are returned, etc. However, the library also provides automatic SIMD feature detection (to dynamically dispatch functions based on CPU architecture), and an overflow-detecting method for picking the correct integer width for calculations. In order to simplify use in the absence of more mature SIMD feature detection in Rust, these dispatching functions are what are currently called in `parasailors`.
 
-**WARNING**: The bindings are currently in an immature state, and it's not recommended to use them for any published results or production systems without some independent verification of both the underlying algorithm implementations and this crate. If you find something worrying, please open an issue :).
+**WARNING**: The bindings are currently in an immature state. If you find something worrying, please open an issue :).
 
 ## Benchmarks
 
-Coming soon.
+Using the same 5kb random sequences on the same machine (CPU supports AVX2).
+
+```bash
+$ rustc --version
+rustc 1.8.0-nightly (3c9442fc5 2016-02-04)
+$ cat /proc/cpuinfo | grep "model name"
+model name	: Intel(R) Xeon(R) CPU E5-2603 v3 @ 1.60GHz
+# ... other cores omitted
+```
+
+A *very* rough estimate suggests that on my machine, parasailors achieves a 98.7% - 98.9% speedup vs [rust-bio](https://github.com/rust-bio/rust-bio)'s sequential alignment, with the obvious tradeoff of needing to call out to native C code to achieve the speedup.
+
+#### rust-bio
+
+The excellent [rust-bio](https://github.com/rust-bio/rust-bio) crate's (sequential) pairwise alignment.
+
+```bash
+$ git clone https://github.com/rust-bio/rust-bio
+# ...
+$ git checkout v0.4.0
+# ...
+$ multirust run nightly cargo bench
+# ... other benchmarks omitted
+test bench_aligner_wc_global     ... bench: 992,524,365 ns/iter (+/- 12,619,674)
+test bench_aligner_wc_local      ... bench: 1,041,005,609 ns/iter (+/- 14,608,932)
+test bench_aligner_wc_semiglobal ... bench: 990,937,047 ns/iter (+/- 7,047,941)
+```
+
+#### parasailors
+
+```bash
+$ multirust run nightly cargo bench
+# ...
+test bench_global_fresh_profile     ... bench:  14,096,259 ns/iter (+/- 50,964)
+test bench_global_reuse_profile     ... bench:  12,647,865 ns/iter (+/- 55,200)
+test bench_local_fresh_profile      ... bench:  11,006,416 ns/iter (+/- 35,788)
+test bench_local_reuse_profile      ... bench:   9,543,404 ns/iter (+/- 49,748)
+test bench_semiglobal_fresh_profile ... bench:  13,909,503 ns/iter (+/- 30,403)
+test bench_semiglobal_reuse_profile ... bench:  12,465,250 ns/iter (+/- 52,930)
+```
 
 ## Usage and Documentation
 
@@ -32,7 +71,6 @@ let query_sequence = b"AAAAAAAAAA";
 let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
 
 // the MatrixType enum allows us to type-safely select which matrix to use
-// without the string-based search of the original library
 let identity_matrix = Matrix::new(MatrixType::Identity);
 
 // profiles can be reused across many alignments, saving overhead

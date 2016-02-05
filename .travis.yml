@@ -17,7 +17,8 @@ script:
 - |
   travis-cargo build &&
   travis-cargo test &&
-  travis-cargo doc
+  travis-cargo doc &&
+  travis-cargo bench
 after_success:
 - travis-cargo --only stable doc-upload
 env:
