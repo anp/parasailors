@@ -10,5 +10,10 @@ keywords = ["simd", "bioinformatics", "sequence", "alignment"]
 description = "SIMD accelerated pairwise genetic sequence alignment."
 
 [dependencies]
+clippy = {version = "0.0.37", optional = true}
 libc = "0.2"
 parasail-sys = { path = "parasail-sys" }
+
+[features]
+default = []
+lint = ["clippy"]

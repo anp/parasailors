@@ -33,10 +33,15 @@ impl Matrix {
         unsafe {
             // we can pass this pointer because it will outlive this unsafe block
             // parasail won't keep a hold of it after the lookup
-            let matrix = match matrix_type {
+            let matrix: *const ParasailMatrix = match matrix_type {
                 MatrixType::Identity => {
-                    let alphabet = &CString::new("ARNDCQEGHILKMFPSTWYVBZX").unwrap();
-                    parasail_matrix_create(alphabet.as_ptr(), 1, -1) as *const ParasailMatrix
+                    let alphabet = &CString::new("ARNDCQEGHILKMFPSTWYVBZX")
+                                        .expect("An internal error has occurred (creating \
+                                                 identity matrix). Please file an issue at \
+                                                 https://github.\
+                                                 com/dikaiosune/parasailors/issues with a sample \
+                                                 of the code that caused this error.");
+                    parasail_matrix_create(alphabet.as_ptr(), 1, -1)
                 }
                 _ => {
                     let lookup_name = match matrix_type {
@@ -108,7 +113,12 @@ impl Matrix {
                         MatrixType::Identity => "",
                     };
 
-                    let lookup = &CString::new(lookup_name).unwrap();
+                    let lookup = &CString::new(lookup_name)
+                                      .expect("An internal error has occurred (matrix lookup \
+                                               with hardcoded string name). Please file an issue \
+                                               at https://github.\
+                                               com/dikaiosune/parasailors/issues with a sample \
+                                               of the code that caused this error.");
 
                     // we need a cast here because we have to store both mut and const
                     parasail_matrix_lookup(lookup.as_ptr())
@@ -135,12 +145,8 @@ impl Deref for Matrix {
 #[doc(hidden)]
 impl Drop for Matrix {
     fn drop(&mut self) {
-        match self.matrix_type {
-            // if we created this matrix (as opposed to it being const), then free it
-            MatrixType::Identity => unsafe {
-                parasail_matrix_free(self.internal_rep as *mut ParasailMatrix)
-            },
-            _ => (),
+        if let MatrixType::Identity = self.matrix_type {
+            unsafe { parasail_matrix_free(self.internal_rep as *mut ParasailMatrix) }
         }
     }
 }
