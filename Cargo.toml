@@ -6,8 +6,9 @@ license = "MIT"
 documentation = "https://dikaiosune.github.io/parasailors"
 repository = "https://github.com/dikaiosune/parasailors"
 readme = "README.md"
-keywords = ["simd", "bioinformatics", "sequence alignment", "pairwise alignment"]
+keywords = ["simd", "bioinformatics", "sequence", "alignment"]
+description = "SIMD accelerated pairwise genetic sequence alignment."
 
 [dependencies]
 libc = "0.2"
-parasail_sys = { path = "parasail_sys" }
+parasail-sys = { path = "parasail-sys" }
