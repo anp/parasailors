@@ -75,8 +75,8 @@
 //! # let profile = Profile::new(query_sequence, &identity_matrix);
 //! let reference = b"CCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
 //! assert_eq!(0, local_alignment_score(&profile, reference, 1, 1));
-//! assert_eq!(-1, semi_global_alignment_score(&profile, reference, 1, 1));
-//! assert_eq!(-40, global_alignment_score(&profile, reference, 1, 1));
+//! assert_eq!(0, semi_global_alignment_score(&profile, reference, 1, 1));
+//! assert_eq!(-30, global_alignment_score(&profile, reference, 1, 1));
 //! ```
 //!
 //! Some more examples with differing query/reference relationships:

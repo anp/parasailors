@@ -41,7 +41,7 @@ impl Matrix {
                                                  https://github.\
                                                  com/dikaiosune/parasailors/issues with a sample \
                                                  of the code that caused this error.");
-                    parasail_matrix_create(alphabet.as_ptr(), 1, -1)
+                    parasail_matrix_create(alphabet.as_ptr(), 1, 0)
                 }
                 _ => {
                     let lookup_name = match matrix_type {
