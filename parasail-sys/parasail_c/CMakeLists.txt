@@ -14,9 +14,9 @@ SET( CPACK_PACKAGE_CONTACT "Jeff Daily <jeff.daily@pnnl.gov>" )
 
 INCLUDE( CheckFunctionExists )
 INCLUDE( CheckLibraryExists )
-INCLUDE( CheckSymbolExists ) 
-INCLUDE( CheckCSourceCompiles ) 
-INCLUDE( FindOpenMP ) 
+INCLUDE( CheckSymbolExists )
+INCLUDE( CheckCSourceCompiles )
+INCLUDE( FindOpenMP )
 INCLUDE( FindSSE2 )
 INCLUDE( FindSSE41 )
 INCLUDE( FindAVX2 )
@@ -478,20 +478,9 @@ IF( HAVE_CLOCK_GETTIME_PTHREAD )
     TARGET_LINK_LIBRARIES( parasail pthread )
 ENDIF( )
 
-ADD_EXECUTABLE( parasail_aligner apps/parasail_aligner.cpp $<TARGET_OBJECTS:sais> )
-IF( OPENMP_FOUND )
-    SET_TARGET_PROPERTIES( parasail_aligner PROPERTIES COMPILE_FLAGS ${OpenMP_CXX_FLAGS} )
-    SET_TARGET_PROPERTIES( parasail_aligner PROPERTIES LINK_FLAGS ${OpenMP_CXX_FLAGS} )
-ENDIF( )
-TARGET_LINK_LIBRARIES( parasail_aligner parasail )
-
-ADD_EXECUTABLE( test_isa tests/test_isa.c )
-TARGET_LINK_LIBRARIES( test_isa parasail )
-
 INSTALL( FILES parasail.h DESTINATION include )
 INSTALL( DIRECTORY parasail DESTINATION include )
-INSTALL( TARGETS parasail parasail_aligner
-    RUNTIME DESTINATION bin
+INSTALL( TARGETS parasail
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
 )
