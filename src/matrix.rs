@@ -43,6 +43,15 @@ impl Matrix {
                                                  of the code that caused this error.");
                     parasail_matrix_create(alphabet.as_ptr(), 1, 0)
                 }
+                MatrixType::IdentityWithPenalty => {
+                    let alphabet = &CString::new("ARNDCQEGHILKMFPSTWYVBZX")
+                                        .expect("An internal error has occurred (creating \
+                                                 identity matrix). Please file an issue at \
+                                                 https://github.\
+                                                 com/dikaiosune/parasailors/issues with a sample \
+                                                 of the code that caused this error.");
+                    parasail_matrix_create(alphabet.as_ptr(), 1, -1)
+                }
                 _ => {
                     let lookup_name = match matrix_type {
                         MatrixType::Blosum100 => "blosum100",
@@ -110,7 +119,7 @@ impl Matrix {
                         MatrixType::Pam70 => "pam70",
                         MatrixType::Pam80 => "pam80",
                         MatrixType::Pam90 => "pam90",
-                        MatrixType::Identity => "",
+                        _ => "",
                     };
 
                     let lookup = &CString::new(lookup_name)
@@ -148,13 +157,19 @@ impl Drop for Matrix {
         if let MatrixType::Identity = self.matrix_type {
             unsafe { parasail_matrix_free(self.internal_rep as *mut ParasailMatrix) }
         }
+
+        if let MatrixType::IdentityWithPenalty = self.matrix_type {
+            unsafe { parasail_matrix_free(self.internal_rep as *mut ParasailMatrix) }
+        }
     }
 }
 
 /// Denotes the type of the substitution matrix. Use Identity for simple edit-distance calculations.
 pub enum MatrixType {
-    /// The identity matrix awards 1 score for each direct match, and -1 score for each mismatch.
+    /// The identity matrix awards 1 score for each direct match, and 0 score for each mismatch.
     Identity,
+    /// An identity matrix which awards 1 score for each match and penalizes -1 for each mismatch.
+    IdentityWithPenalty,
     /// The [BLOSUM](https://en.wikipedia.org/wiki/BLOSUM) 100 substitution matrix.
     Blosum100,
     /// The [BLOSUM](https://en.wikipedia.org/wiki/BLOSUM) 30 substitution matrix.
