@@ -1,3 +1,13 @@
+.dirstamp
+.deps
+.libs
+parasail_aligner
+parasail_aligner_cilk
+parasail_stats
+config.h
+config.status
+libtool
+stamp-h1
 oprofile_data
 target
 target-install
