@@ -1,14 +1,8 @@
-#![deny(missing_docs,
+#![warn(missing_docs,
         trivial_casts,
         trivial_numeric_casts,
         unused_import_braces,
         unused_qualifications)]
-
-#![cfg_attr(feature = "lint", allow(unstable_features))]
-#![cfg_attr(feature = "lint", feature(plugin))]
-#![cfg_attr(feature = "lint", plugin(clippy))]
-#![cfg_attr(feature = "lint", deny(clippy))]
-#![cfg_attr(feature = "lint", warn(clippy_pedantic))]
 
 // Copyright (c) 2016 Adam Perry <adam.n.perry@gmail.com>
 //
