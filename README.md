@@ -97,7 +97,7 @@ assert_eq!(-30, global_alignment_score(&profile, reference, 1, 1));
 
 ## Requirements
 
-The sub-crate with the FFI bindings (`parasail_sys`) relies on `cmake >= 2.8.8` to build the bundled version of parasail. It's recommended to build on a system with a comparable SIMD instruction set to the target machine (ideally the target machine itself). The `parasail` C library generally does a good job of feature detection, but your compiler may balk at producing vector instructions for an architecture on which it's not running, potentially robbing some performance.
+The sub-crate with the FFI bindings ([parasail_sys](https://github.com/dikaiosune/parasail-sys)) uses an autotools build for the C library (there aren't any distro packages for parasail, AFAIK), so you'll need a compatible toolchain. It's recommended to build on a system with a comparable SIMD instruction set to the target machine (ideally the target machine itself). The `parasail` C library generally does a good job of feature detection, but your compiler may balk at producing vector instructions for an architecture on which it's not running, potentially robbing some performance.
 
 ## Contributions, Questions, and Issues
 
