@@ -1,6 +1,6 @@
 [package]
 name = "parasailors"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["Adam Perry <adam.n.perry@gmail.com>"]
 license = "MIT"
 documentation = "https://dikaiosune.github.io/parasailors"
@@ -11,4 +11,4 @@ description = "SIMD accelerated pairwise genetic sequence alignment."
 
 [dependencies]
 libc = "0.2.7"
-parasail-sys = "0.2.4"
+parasail-sys = "0.2.5"
