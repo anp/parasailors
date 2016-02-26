@@ -11,4 +11,4 @@ description = "SIMD accelerated pairwise genetic sequence alignment."
 
 [dependencies]
 libc = "0.2.7"
-parasail-sys = "0.2.3"
+parasail-sys = "0.2.4"
