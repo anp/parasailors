@@ -7,7 +7,7 @@ use libc::c_int;
 
 use parasail_sys::{parasail_result_free, parasail_nw_striped_profile_sat,
                    parasail_sg_striped_profile_sat, parasail_sw_striped_profile_sat,
-                   parasail_sg_stats_striped_sat};
+                   parasail_sg_stats_striped_sat, parasail_sw_stats_striped_sat};
 use profile::Profile;
 
 /// Provides a score for global pairwise alignment, using a vectorized version of [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm).
@@ -140,7 +140,7 @@ pub struct AlignmentStats {
 
 /// Provides statistics for semi-global pairwise alignment using a vectorized algorithm.
 ///
-/// This results in a series of statistics, including a score that corresponds to a global alignment for the query sequence (i.e. the sequence in the `Profile`) and a local alignment for the reference sequence. This is particularly useful when checking for the presence of an NGS read in a much longer reference sequence. This behaves like a global alignment, except that gaps at the start or end of the reference sequence's alignment are ignored.
+/// This results in a series of statistics, including a score that corresponds to a global alignment for the query sequence and a local alignment for the reference sequence. This is particularly useful when checking for the presence of an NGS read in a much longer reference sequence. This behaves like a global alignment, except that gaps at the start or end of the reference sequence's alignment are ignored.
 ///
 /// Other statistics include the number of matching characters, the number of positive substitutions, the length of the found alignment, and the starting point in both sequences where the alignment starts.
 ///
@@ -169,6 +169,62 @@ pub fn semi_global_alignment_stats(query_sequence: &[u8],
 
     unsafe {
         let result = parasail_sg_stats_striped_sat(query_sequence.as_ptr(),
+                                                   query_sequence.len() as c_int,
+                                                   database_sequence.as_ptr(),
+                                                   database_sequence.len() as c_int,
+                                                   open_cost,
+                                                   gap_extend_cost,
+                                                   **substitution_matrix);
+
+        let score = (*result).score as i64;
+        let num_matches = (*result).matches as u64;
+        let num_subs = (*result).similar as u64;
+        let align_len = (*result).length as usize;
+
+        // calculate start from end
+        let query_end = (*result).end_query as usize + 1;
+        let ref_end = (*result).end_ref as usize + 1;
+
+        parasail_result_free(result);
+
+        AlignmentStats {
+            score: score,
+            num_matches: num_matches,
+            num_positive_subs: num_subs,
+            align_length: align_len,
+            query_end: query_end,
+            ref_end: ref_end,
+        }
+    }
+}
+
+/// Provides statistics for local pairwise alignment using a vectorized algorithm.
+///
+/// # Examples
+///
+/// ```
+/// # use parasailors::*;
+/// let identity_matrix = Matrix::new(MatrixType::Identity);
+/// let query = b"AAAACCCCCCCCCCGGG";
+///
+/// let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
+/// let stats = local_alignment_stats(query, reference, 1, 1, &identity_matrix);
+/// assert_eq!(17, stats.score);
+/// assert_eq!(17, stats.num_matches);
+/// assert_eq!(17, stats.num_positive_subs);
+/// assert_eq!(17, stats.align_length);
+/// assert_eq!(17, stats.query_end);
+/// assert_eq!(23, stats.ref_end);
+/// ```
+pub fn local_alignment_stats(query_sequence: &[u8],
+                                   database_sequence: &[u8],
+                                   open_cost: i32,
+                                   gap_extend_cost: i32,
+                                   substitution_matrix: &::matrix::Matrix)
+                                   -> AlignmentStats {
+
+    unsafe {
+        let result = parasail_sw_stats_striped_sat(query_sequence.as_ptr(),
                                                    query_sequence.len() as c_int,
                                                    database_sequence.as_ptr(),
                                                    database_sequence.len() as c_int,
