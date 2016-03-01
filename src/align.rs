@@ -7,7 +7,9 @@ use libc::c_int;
 
 use parasail_sys::{parasail_result_free, parasail_nw_striped_profile_sat,
                    parasail_sg_striped_profile_sat, parasail_sw_striped_profile_sat,
-                   parasail_sg_stats_striped_sat, parasail_sw_stats_striped_sat};
+                   parasail_sg_stats_striped_sat, parasail_sw_stats_striped_sat,
+                   parasail_sw_striped_sat};
+use matrix::Matrix;
 use profile::Profile;
 
 /// Provides a score for global pairwise alignment, using a vectorized version of [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm).
@@ -122,6 +124,45 @@ pub fn local_alignment_score(query_profile: &Profile,
     }
 }
 
+/// Returns a score for local pairwise alignment using a vectorized version of [Smith-Waterman](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm).
+///
+/// # Examples
+///
+/// ```
+/// # use parasailors::*;
+/// let identity_matrix = Matrix::new(MatrixType::Identity);
+/// let query = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
+///
+/// let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
+/// assert_eq!(50, local_alignment_score_no_profile(query, reference, 1, 1, &identity_matrix));
+///
+/// let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTCCTTTTTTNNNNNNNNN";
+/// assert_eq!(48, local_alignment_score_no_profile(query, reference, 1, 1, &identity_matrix));
+///
+/// let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTT";
+/// assert_eq!(35, local_alignment_score_no_profile(query, reference, 1, 1, &identity_matrix));
+/// ```
+pub fn local_alignment_score_no_profile(query: &[u8],
+                                        database_sequence: &[u8],
+                                        open_cost: i32,
+                                        gap_extend_cost: i32,
+                                        sub_matrix: &Matrix)
+                                        -> i32 {
+
+    unsafe {
+        let result = parasail_sw_striped_sat(query.as_ptr(),
+                                             query.len() as c_int,
+                                             database_sequence.as_ptr(),
+                                             database_sequence.len() as c_int,
+                                             open_cost,
+                                             gap_extend_cost,
+                                             **sub_matrix);
+        let score = (*result).score;
+        parasail_result_free(result);
+        score
+    }
+}
+
 /// Stores statistics from an alignment.
 pub struct AlignmentStats {
     /// The score according to the substitution matrix and gap penalty scheme used.
@@ -217,11 +258,11 @@ pub fn semi_global_alignment_stats(query_sequence: &[u8],
 /// assert_eq!(23, stats.ref_end);
 /// ```
 pub fn local_alignment_stats(query_sequence: &[u8],
-                                   database_sequence: &[u8],
-                                   open_cost: i32,
-                                   gap_extend_cost: i32,
-                                   substitution_matrix: &::matrix::Matrix)
-                                   -> AlignmentStats {
+                             database_sequence: &[u8],
+                             open_cost: i32,
+                             gap_extend_cost: i32,
+                             substitution_matrix: &::matrix::Matrix)
+                             -> AlignmentStats {
 
     unsafe {
         let result = parasail_sw_stats_striped_sat(query_sequence.as_ptr(),
