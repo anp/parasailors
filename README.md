@@ -113,6 +113,8 @@ All of the Rust code here is licensed under the [MIT license](https://opensource
 
 If needed, please cite the original paper for [parasail](https://github.com/jeffdaily/parasail/):
 
-Daily, Jeff. 2015. "Scalable Parallel Methods for Analyzing Metagenomic Data at Extreme Scale". PhD dissertation, Washington State University.  http://www.pnnl.gov/main/publications/external/technical_reports/PNNL-24266.pdf
+Daily, Jeff. (2016). Parasail: SIMD C library for global, semi-global, and local pairwise sequence alignments. *BMC Bioinformatics*, 17(1), 1-11. doi:10.1186/s12859-016-0930-z
+
+http://dx.doi.org/10.1186/s12859-016-0930-z
 
 I take no responsibility for the nice implementations of these algorithms, and I do think that the original author should be rewarded if this crate is used in an academic context.
