@@ -55,7 +55,7 @@ test bench_semiglobal_reuse_profile ... bench:  12,465,250 ns/iter (+/- 52,930)
 
 ```toml
 [dependencies]
-parasailors = "0.1"
+parasailors = "0.3"
 ```
 
 A brief usage example with an identity substitution matrix (although PAM and BLOSUM are available as well):
