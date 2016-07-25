@@ -17,6 +17,9 @@ pub struct Matrix {
     internal_rep: *const ParasailMatrix,
 }
 
+unsafe impl Send for Matrix {}
+unsafe impl Sync for Matrix {}
+
 impl Matrix {
     /// Either create a dynamic substitution matrix (as in `MatrixType::Identity`) or look up a statically allocated matrix (as in any of the native parasail PAM and BLOSUM matrices).
     ///
