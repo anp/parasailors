@@ -94,6 +94,17 @@
 //! assert_eq!(48, semi_global_alignment_score(&profile, reference, 1, 1));
 //! assert_eq!(48, global_alignment_score(&profile, reference, 1, 1));
 //! ```
+//!
+//! Also, we can just do one-off alignment which will automatically create and
+//! destroy the profile:
+//!
+//! ```
+//! # use parasailors::*;
+//! # let identity_matrix = Matrix::new(MatrixType::Identity);
+//! let query = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
+//! let reference = b"AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN";
+//! assert_eq!(50, local_alignment_score_no_profile(reference, query, 1, 1, &identity_matrix));
+//! ```
 
 extern crate libc;
 extern crate parasail_sys;
