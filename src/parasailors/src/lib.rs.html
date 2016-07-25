@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="Source to the Rust file `src/lib.rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang">
+
+    <title>lib.rs.html -- source</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+</pre><pre class='rust '>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>,
+        <span class='ident'>trivial_casts</span>,
+        <span class='ident'>trivial_numeric_casts</span>,
+        <span class='ident'>unused_import_braces</span>,
+        <span class='ident'>unused_qualifications</span>)]</span>
+
+<span class='comment'>// Copyright (c) 2016 Adam Perry &lt;adam.n.perry@gmail.com&gt;</span>
+<span class='comment'>//</span>
+<span class='comment'>// This software may be modified and distributed under the terms of the MIT license.  See the</span>
+<span class='comment'>// LICENSE file for details.</span>
+
+<span class='doccomment'>//! ## Background</span>
+<span class='doccomment'>//! [parasailors](https://github.com/dikaiosune/parasailors) is a set of Rust bindings to the [parasail](https://github.com/jeffdaily/parasail) pairwise sequence alignment library, which is written in C. `parasail` uses vectorized/SIMD versions of the [Smith-Waterman](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm) and [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm) algorithms for pairwise sequence alignment. `parasail` also includes a vectorized [semi-global alignment algorithm](https://en.wikipedia.org/wiki/Sequence_alignment#Global_and_local_alignments) which provides a global alignment for a query sequence and a local alignment for a reference sequence (useful with NGS reads that need to be mapped against a chromosome, for example).</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! **WARNING**: The bindings are currently in an immature state, and it&#39;s not recommended to use them for any published results or production systems without some independent verification of both the underlying algorithm implementations and this bindings library.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! In the interest of ease of use, this crate provides a much simpler interface than the original library. The original C library provides dozens (hundreds?) of functions to use for alignment. Even though they only implement 3 algorithms, they vary based on which SIMD ISA is used, the integer width for the underlying calculations, whether statistics of the alignment are calculated, whether rows or columns from the dynamic programming matrix are returned, etc. However, the library also provides automatic SIMD feature detection (to dynamically dispatch functions based on CPU architecture), and an overflow-detecting method for picking the correct integer width for calculations. These dispatching functions are what are currently called in `parasailors`.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ## Usage</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Nearly all `parasail` functions create a &quot;profile&quot; for your alignment query as a first step. However, this is wasteful when you may need to reuse a query profile across multiple reference alignments, so there is a family of functions which take a pointer to a profile instead of a raw query sequence. All `parasailors` functionality uses explicitly created profiles to encourage efficient reuse:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! First, an exact matching example:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use parasailors::*;</span>
+<span class='doccomment'>//! let query_sequence = b&quot;AAAAAAAAAA&quot;;</span>
+<span class='doccomment'>//! let reference =      b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;;</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! We&#39;ll use an identity substitution matrix for scoring:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use parasailors::*;</span>
+<span class='doccomment'>//! # let query_sequence = b&quot;AAAAAAAAAA&quot;;</span>
+<span class='doccomment'>//! # let reference = b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;;</span>
+<span class='doccomment'>//! let identity_matrix = Matrix::new(MatrixType::Identity);</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! And construct a profile for querying the references:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use parasailors::*;</span>
+<span class='doccomment'>//! # let query_sequence = b&quot;AAAAAAAAAA&quot;;</span>
+<span class='doccomment'>//! # let reference = b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;;</span>
+<span class='doccomment'>//! # let identity_matrix = Matrix::new(MatrixType::Identity);</span>
+<span class='doccomment'>//! let profile = Profile::new(query_sequence, &amp;identity_matrix);</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! And now we can perform several different alignments with the same profile:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use parasailors::*;</span>
+<span class='doccomment'>//! # let query_sequence = b&quot;AAAAAAAAAA&quot;;</span>
+<span class='doccomment'>//! # let reference = b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;;</span>
+<span class='doccomment'>//! # let identity_matrix = Matrix::new(MatrixType::Identity);</span>
+<span class='doccomment'>//! # let profile = Profile::new(query_sequence, &amp;identity_matrix);</span>
+<span class='doccomment'>//! assert_eq!(10, local_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! assert_eq!(10, semi_global_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! assert_eq!(-30, global_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! And a non-matching alignment:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use parasailors::*;</span>
+<span class='doccomment'>//! # let query_sequence = b&quot;AAAAAAAAAA&quot;;</span>
+<span class='doccomment'>//! # let identity_matrix = Matrix::new(MatrixType::Identity);</span>
+<span class='doccomment'>//! # let profile = Profile::new(query_sequence, &amp;identity_matrix);</span>
+<span class='doccomment'>//! let reference = b&quot;CCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;;</span>
+<span class='doccomment'>//! assert_eq!(0, local_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! assert_eq!(0, semi_global_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! assert_eq!(-30, global_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! Some more examples with differing query/reference relationships:</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use parasailors::*;</span>
+<span class='doccomment'>//! # let identity_matrix = Matrix::new(MatrixType::Identity);</span>
+<span class='doccomment'>//! // a normal NGS read length</span>
+<span class='doccomment'>//! let query = b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;;</span>
+<span class='doccomment'>//! let profile = Profile::new(query, &amp;identity_matrix);</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // these should be exact matches, with score of 50</span>
+<span class='doccomment'>//! let reference = b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;;</span>
+<span class='doccomment'>//! assert_eq!(50, local_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! assert_eq!(50, semi_global_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! assert_eq!(50, global_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! // these should be inexact matches with 2 edits, with score of 48</span>
+<span class='doccomment'>//! let reference = b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTCCTTTTTTNNNNNNNNN&quot;;</span>
+<span class='doccomment'>//! assert_eq!(48, local_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! assert_eq!(48, semi_global_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! assert_eq!(48, global_alignment_score(&amp;profile, reference, 1, 1));</span>
+<span class='doccomment'>//! ```</span>
+
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>parasail_sys</span>;
+
+<span class='kw'>mod</span> <span class='ident'>align</span>;
+<span class='kw'>mod</span> <span class='ident'>matrix</span>;
+<span class='kw'>mod</span> <span class='ident'>profile</span>;
+
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>align</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>matrix</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>profile</span>::<span class='op'>*</span>;
+</pre>
+</section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "parasailors";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `parasailors` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, parasailors">
+
+    <title>parasailors - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'parasailors', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>parasailors</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-0' class='srclink' href='../src/parasailors/src/lib.rs.html#1-107' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'>
+<h2 id='background' class='section-header'><a href='#background'>Background</a></h2>
+<p><a href="https://github.com/dikaiosune/parasailors">parasailors</a> is a set of Rust bindings to the <a href="https://github.com/jeffdaily/parasail">parasail</a> pairwise sequence alignment library, which is written in C. <code>parasail</code> uses vectorized/SIMD versions of the <a href="https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm">Smith-Waterman</a> and <a href="https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm">Needleman-Wunsch</a> algorithms for pairwise sequence alignment. <code>parasail</code> also includes a vectorized <a href="https://en.wikipedia.org/wiki/Sequence_alignment#Global_and_local_alignments">semi-global alignment algorithm</a> which provides a global alignment for a query sequence and a local alignment for a reference sequence (useful with NGS reads that need to be mapped against a chromosome, for example).</p>
+
+<p><strong>WARNING</strong>: The bindings are currently in an immature state, and it&#39;s not recommended to use them for any published results or production systems without some independent verification of both the underlying algorithm implementations and this bindings library.</p>
+
+<p>In the interest of ease of use, this crate provides a much simpler interface than the original library. The original C library provides dozens (hundreds?) of functions to use for alignment. Even though they only implement 3 algorithms, they vary based on which SIMD ISA is used, the integer width for the underlying calculations, whether statistics of the alignment are calculated, whether rows or columns from the dynamic programming matrix are returned, etc. However, the library also provides automatic SIMD feature detection (to dynamically dispatch functions based on CPU architecture), and an overflow-detecting method for picking the correct integer width for calculations. These dispatching functions are what are currently called in <code>parasailors</code>.</p>
+
+<h2 id='usage' class='section-header'><a href='#usage'>Usage</a></h2>
+<p>Nearly all <code>parasail</code> functions create a &quot;profile&quot; for your alignment query as a first step. However, this is wasteful when you may need to reuse a query profile across multiple reference alignments, so there is a family of functions which take a pointer to a profile instead of a raw query sequence. All <code>parasailors</code> functionality uses explicitly created profiles to encourage efficient reuse:</p>
+
+<p>First, an exact matching example:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>query_sequence</span> <span class='op'>=</span> <span class='string'>b&quot;AAAAAAAAAA&quot;</span>;
+<span class='kw'>let</span> <span class='ident'>reference</span> <span class='op'>=</span>      <span class='string'>b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;</span>;</pre>
+
+<p>We&#39;ll use an identity substitution matrix for scoring:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>identity_matrix</span> <span class='op'>=</span> <span class='ident'>Matrix</span>::<span class='ident'>new</span>(<span class='ident'>MatrixType</span>::<span class='ident'>Identity</span>);</pre>
+
+<p>And construct a profile for querying the references:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>profile</span> <span class='op'>=</span> <span class='ident'>Profile</span>::<span class='ident'>new</span>(<span class='ident'>query_sequence</span>, <span class='kw-2'>&amp;</span><span class='ident'>identity_matrix</span>);</pre>
+
+<p>And now we can perform several different alignments with the same profile:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>10</span>, <span class='ident'>local_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>10</span>, <span class='ident'>semi_global_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='op'>-</span><span class='number'>30</span>, <span class='ident'>global_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));</pre>
+
+<p>And a non-matching alignment:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>reference</span> <span class='op'>=</span> <span class='string'>b&quot;CCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;</span>;
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>0</span>, <span class='ident'>local_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>0</span>, <span class='ident'>semi_global_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='op'>-</span><span class='number'>30</span>, <span class='ident'>global_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));</pre>
+
+<p>Some more examples with differing query/reference relationships:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='comment'>// a normal NGS read length</span>
+<span class='kw'>let</span> <span class='ident'>query</span> <span class='op'>=</span> <span class='string'>b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;</span>;
+<span class='kw'>let</span> <span class='ident'>profile</span> <span class='op'>=</span> <span class='ident'>Profile</span>::<span class='ident'>new</span>(<span class='ident'>query</span>, <span class='kw-2'>&amp;</span><span class='ident'>identity_matrix</span>);
+
+<span class='comment'>// these should be exact matches, with score of 50</span>
+<span class='kw'>let</span> <span class='ident'>reference</span> <span class='op'>=</span> <span class='string'>b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTTTTTTTNNNNNNNNN&quot;</span>;
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>50</span>, <span class='ident'>local_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>50</span>, <span class='ident'>semi_global_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>50</span>, <span class='ident'>global_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+
+<span class='comment'>// these should be inexact matches with 2 edits, with score of 48</span>
+<span class='kw'>let</span> <span class='ident'>reference</span> <span class='op'>=</span> <span class='string'>b&quot;AAAAAAAAAACCCCCCCCCCGGGGGGGGGGTTTTTCCTTTTTTNNNNNNNNN&quot;</span>;
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>48</span>, <span class='ident'>local_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>48</span>, <span class='ident'>semi_global_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>48</span>, <span class='ident'>global_alignment_score</span>(<span class='kw-2'>&amp;</span><span class='ident'>profile</span>, <span class='ident'>reference</span>, <span class='number'>1</span>, <span class='number'>1</span>));</pre>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.AlignmentStats.html'
+                                  title='parasailors::AlignmentStats'>AlignmentStats</a></td>
+                           <td class='docblock short'>
+                                <p>Stores statistics from an alignment.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Matrix.html'
+                                  title='parasailors::Matrix'>Matrix</a></td>
+                           <td class='docblock short'>
+                                <p>A substitution matrix to use when aligning DNA or protein. Can be reused in many profiles.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Profile.html'
+                                  title='parasailors::Profile'>Profile</a></td>
+                           <td class='docblock short'>
+                                <p>A container for a parasail query profile. Can be reused to re-align the same sequence against multiple references.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.MatrixType.html'
+                                  title='parasailors::MatrixType'>MatrixType</a></td>
+                           <td class='docblock short'>
+                                <p>Denotes the type of the substitution matrix. Use Identity for simple edit-distance calculations.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.global_alignment_score.html'
+                                  title='parasailors::global_alignment_score'>global_alignment_score</a></td>
+                           <td class='docblock short'>
+                                <p>Provides a score for global pairwise alignment, using a vectorized version of <a href="https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm">Needleman-Wunsch</a>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.local_alignment_score.html'
+                                  title='parasailors::local_alignment_score'>local_alignment_score</a></td>
+                           <td class='docblock short'>
+                                <p>Returns a score for local pairwise alignment using a vectorized version of <a href="https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm">Smith-Waterman</a>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.local_alignment_score_no_profile.html'
+                                  title='parasailors::local_alignment_score_no_profile'>local_alignment_score_no_profile</a></td>
+                           <td class='docblock short'>
+                                <p>Returns a score for local pairwise alignment using a vectorized version of <a href="https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm">Smith-Waterman</a>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.local_alignment_stats.html'
+                                  title='parasailors::local_alignment_stats'>local_alignment_stats</a></td>
+                           <td class='docblock short'>
+                                <p>Provides statistics for local pairwise alignment using a vectorized algorithm.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.semi_global_alignment_score.html'
+                                  title='parasailors::semi_global_alignment_score'>semi_global_alignment_score</a></td>
+                           <td class='docblock short'>
+                                <p>Provides a score for semi-global pairwise alignment using a vectorized algorithm.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.semi_global_alignment_stats.html'
+                                  title='parasailors::semi_global_alignment_stats'>semi_global_alignment_stats</a></td>
+                           <td class='docblock short'>
+                                <p>Provides statistics for semi-global pairwise alignment using a vectorized algorithm.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "parasailors";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

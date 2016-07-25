@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Profile","A container for a parasail query profile. Can be reused to re-align the same sequence against multiple references."]]});

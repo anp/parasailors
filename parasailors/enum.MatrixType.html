@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `MatrixType` enum in crate `parasailors`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, MatrixType">
+
+    <title>parasailors::MatrixType - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>parasailors</a></p><script>window.sidebarCurrent = {name: 'MatrixType', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>parasailors</a>::<wbr><a class='enum' href=''>MatrixType</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-99' class='srclink' href='../src/parasailors/src/matrix.rs.html#171-306' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum MatrixType {
+    Identity,
+    IdentityWithPenalty,
+    Blosum100,
+    Blosum30,
+    Blosum35,
+    Blosum40,
+    Blosum45,
+    Blosum50,
+    Blosum55,
+    Blosum60,
+    Blosum62,
+    Blosum65,
+    Blosum70,
+    Blosum75,
+    Blosum80,
+    Blosum85,
+    Blosum90,
+    Pam10,
+    Pam100,
+    Pam110,
+    Pam120,
+    Pam130,
+    Pam140,
+    Pam150,
+    Pam160,
+    Pam170,
+    Pam180,
+    Pam190,
+    Pam20,
+    Pam200,
+    Pam210,
+    Pam220,
+    Pam230,
+    Pam240,
+    Pam250,
+    Pam260,
+    Pam270,
+    Pam280,
+    Pam290,
+    Pam30,
+    Pam300,
+    Pam310,
+    Pam320,
+    Pam330,
+    Pam340,
+    Pam350,
+    Pam360,
+    Pam370,
+    Pam380,
+    Pam390,
+    Pam40,
+    Pam400,
+    Pam410,
+    Pam420,
+    Pam430,
+    Pam440,
+    Pam450,
+    Pam460,
+    Pam470,
+    Pam480,
+    Pam490,
+    Pam50,
+    Pam500,
+    Pam60,
+    Pam70,
+    Pam80,
+    Pam90,
+}</pre><div class='docblock'><p>Denotes the type of the substitution matrix. Use Identity for simple edit-distance calculations.</p>
+</div><h2 class='variants'>Variants</h2>
+<table class='variants_table'><tr><td id='variant.Identity'><code>Identity</code></td><td><div class='docblock'><p>The identity matrix awards 1 score for each direct match, and 0 score for each mismatch.</p>
+</div></td><td></td></tr><tr><td id='variant.IdentityWithPenalty'><code>IdentityWithPenalty</code></td><td><div class='docblock'><p>An identity matrix which awards 1 score for each match and penalizes -1 for each mismatch.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum100'><code>Blosum100</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 100 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum30'><code>Blosum30</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 30 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum35'><code>Blosum35</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 35 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum40'><code>Blosum40</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 40 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum45'><code>Blosum45</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 45 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum50'><code>Blosum50</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 50 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum55'><code>Blosum55</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 55 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum60'><code>Blosum60</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 60 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum62'><code>Blosum62</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 62 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum65'><code>Blosum65</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 65 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum70'><code>Blosum70</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 70 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum75'><code>Blosum75</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 75 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum80'><code>Blosum80</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 80 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum85'><code>Blosum85</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 85 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Blosum90'><code>Blosum90</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/BLOSUM">BLOSUM</a> 90 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam10'><code>Pam10</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 10 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam100'><code>Pam100</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 100 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam110'><code>Pam110</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 110 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam120'><code>Pam120</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 120 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam130'><code>Pam130</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 130 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam140'><code>Pam140</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 140 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam150'><code>Pam150</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 150 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam160'><code>Pam160</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 160 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam170'><code>Pam170</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 170 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam180'><code>Pam180</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 180 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam190'><code>Pam190</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 190 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam20'><code>Pam20</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 20 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam200'><code>Pam200</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 200 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam210'><code>Pam210</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 210 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam220'><code>Pam220</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 220 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam230'><code>Pam230</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 230 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam240'><code>Pam240</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 240 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam250'><code>Pam250</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 250 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam260'><code>Pam260</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 260 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam270'><code>Pam270</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 270 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam280'><code>Pam280</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 280 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam290'><code>Pam290</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 290 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam30'><code>Pam30</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 30 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam300'><code>Pam300</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 300 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam310'><code>Pam310</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 310 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam320'><code>Pam320</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 320 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam330'><code>Pam330</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 330 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam340'><code>Pam340</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 340 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam350'><code>Pam350</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 350 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam360'><code>Pam360</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 360 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam370'><code>Pam370</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 370 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam380'><code>Pam380</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 380 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam390'><code>Pam390</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 390 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam40'><code>Pam40</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 40 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam400'><code>Pam400</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 400 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam410'><code>Pam410</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 410 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam420'><code>Pam420</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 420 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam430'><code>Pam430</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 430 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam440'><code>Pam440</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 440 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam450'><code>Pam450</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 450 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam460'><code>Pam460</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 460 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam470'><code>Pam470</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 470 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam480'><code>Pam480</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 480 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam490'><code>Pam490</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 490 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam50'><code>Pam50</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 50 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam500'><code>Pam500</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 500 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam60'><code>Pam60</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 60 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam70'><code>Pam70</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 70 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam80'><code>Pam80</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 80 substitution matrix.</p>
+</div></td><td></td></tr><tr><td id='variant.Pam90'><code>Pam90</code></td><td><div class='docblock'><p>The <a href="https://en.wikipedia.org/wiki/Point_accepted_mutation">PAM</a> 90 substitution matrix.</p>
+</div></td><td></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "parasailors";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script defer src="../search-index.js"></script>
+</body>
+</html>
